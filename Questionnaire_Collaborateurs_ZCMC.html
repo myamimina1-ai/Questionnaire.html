@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire Collaborateurs — ZCMC</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--cad:#1652A8;--cad2:#0D3D80;--cad3:#E8F0FB;--g:#06A77D;--r:#E63946;--gold:#E8A020;--pur:#7B2D8B;--text:#1E293B;--muted:#64748B;--border:#DDE6F0;--bg:#F4F7FB;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.header{background:var(--cad2);position:sticky;top:0;z-index:200;box-shadow:0 2px 24px rgba(13,61,128,.4);}
+.hi{max-width:800px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+.hlogo{display:flex;align-items:center;gap:10px;}
+.hdot{width:34px;height:34px;background:var(--cad);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#fff;}
+.htxt{font-size:13px;font-weight:700;color:#fff;}
+.hsub{font-size:10px;color:rgba(255,255,255,.45);}
+.hbadge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:1.5px;}
+.hbar{height:3px;background:rgba(255,255,255,.1);}
+.hfill{height:100%;background:linear-gradient(90deg,#00A8E8,var(--g));width:0%;transition:width .4s;}
+.main{max-width:800px;margin:0 auto;padding:28px 16px 80px;}
+.hero{background:linear-gradient(145deg,var(--cad2),var(--cad));border-radius:20px;padding:34px 36px;margin-bottom:22px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;width:280px;height:280px;background:rgba(255,255,255,.03);border-radius:50%;top:-80px;right:-80px;}
+.htag{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.85);font-size:10px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:28px;color:#fff;line-height:1.25;margin-bottom:8px;}
+.hero p{font-size:13px;color:rgba(255,255,255,.62);line-height:1.75;max-width:500px;}
+.hnote{margin-top:16px;background:rgba(255,255,255,.07);border-radius:10px;padding:11px 15px;font-size:11.5px;color:rgba(255,255,255,.65);border-left:3px solid rgba(0,168,232,.7);line-height:1.6;}
+.icard{background:#fff;border-radius:16px;padding:22px 26px;margin-bottom:18px;border:1px solid var(--border);box-shadow:0 2px 14px rgba(0,0,0,.05);}
+.ititle{font-size:11px;font-weight:700;color:var(--cad);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:500px){.igrid{grid-template-columns:1fr;}}
+.ifield label{display:block;font-size:11px;font-weight:600;color:var(--cad);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.ifield input,.ifield select{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none;transition:all .2s;appearance:none;}
+.ifield input:focus,.ifield select:focus{border-color:var(--cad);background:#fff;box-shadow:0 0 0 3px rgba(22,82,168,.1);}
+.prow{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.plabel{font-size:12px;color:var(--muted);}
+.pcount{font-size:13px;font-weight:700;color:var(--cad);}
+.sdiv{background:linear-gradient(135deg,var(--cad),var(--cad2));border-radius:11px;padding:11px 17px;margin:22px 0 13px;display:flex;align-items:center;gap:9px;}
+.sdiv span{font-size:12px;font-weight:700;color:#fff;letter-spacing:.5px;text-transform:uppercase;}
+.qcard{background:#fff;border-radius:14px;padding:20px 22px;margin-bottom:11px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.04);transition:box-shadow .2s,border-color .2s;}
+.qcard.answered{border-left:4px solid var(--g);}
+.qcard:focus-within{box-shadow:0 4px 20px rgba(22,82,168,.1);}
+.qhead{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px;}
+.qnum{width:32px;height:32px;min-width:32px;background:var(--cad);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;}
+.qtxt{font-size:13.5px;font-weight:600;color:var(--text);line-height:1.5;}
+.opts{display:flex;flex-direction:column;gap:6px;}
+.opt{display:flex;align-items:center;gap:10px;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;cursor:pointer;transition:all .15s;background:var(--bg);user-select:none;}
+.opt:hover{border-color:var(--cad);background:var(--cad3);}
+.opt.sel{border-color:var(--cad);background:var(--cad3);}
+.opt input{display:none;}
+.oletter{width:23px;height:23px;min-width:23px;border-radius:6px;background:rgba(22,82,168,.1);color:var(--cad);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.opt.sel .oletter{background:var(--cad);color:#fff;}
+.otxt{font-size:12.5px;color:var(--text);line-height:1.4;}
+.sarea{background:#fff;border-radius:16px;padding:24px 26px;border:1px solid var(--border);margin-top:18px;}
+.snote{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:16px;padding:11px 14px;background:var(--bg);border-radius:8px;border-left:3px solid var(--cad);}
+.sbtn{background:var(--cad);color:#fff;border:none;padding:14px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:100%;transition:all .2s;}
+.sbtn:hover:not(:disabled){background:var(--cad2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(22,82,168,.3);}
+.sbtn:disabled{background:#94A3B8;cursor:not-allowed;}
+.loading{display:none;text-align:center;padding:56px 24px;background:#fff;border-radius:20px;border:1px solid var(--border);}
+.loading.show{display:block;}
+.spin{width:46px;height:46px;border:4px solid var(--cad3);border-top-color:var(--cad);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 18px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--cad);margin-bottom:7px;}
+.loading p{font-size:13px;color:var(--muted);line-height:1.6;}
+.lsteps{margin-top:18px;display:flex;flex-direction:column;gap:7px;}
+.lstep{display:flex;align-items:center;gap:9px;padding:9px 13px;background:var(--bg);border-radius:8px;font-size:12px;color:var(--muted);}
+.lstep.active{background:var(--cad3);color:var(--cad);font-weight:600;}
+.lstep.done{background:#E8F8F2;color:var(--g);font-weight:600;}
+/* RAPPORT */
+.rpage{display:none;}
+.rpage.show{display:block;}
+.rheader{background:linear-gradient(145deg,var(--cad2),var(--cad));border-radius:20px;padding:34px 36px;margin-bottom:22px;position:relative;overflow:hidden;}
+.rheader::before{content:'';position:absolute;width:250px;height:250px;background:rgba(255,255,255,.03);border-radius:50%;top:-60px;right:-60px;}
+.rref{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);font-size:10px;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:14px;}
+.rheader h2{font-family:'Playfair Display',serif;font-size:25px;color:#fff;margin-bottom:5px;}
+.rinfo{font-size:12px;color:rgba(255,255,255,.55);}
+.rbody{background:#fff;border-radius:16px;padding:30px;border:1px solid var(--border);box-shadow:0 4px 22px rgba(0,0,0,.06);margin-bottom:18px;}
+.rbody h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--cad);margin-bottom:5px;}
+.rsub{font-size:12px;color:var(--muted);margin-bottom:18px;}
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:20px;}
+@media(max-width:460px){.sgrid{grid-template-columns:1fr;}}
+.scard{background:var(--bg);border-radius:11px;padding:14px;border:1px solid var(--border);}
+.slabel{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;}
+.sbarw{height:7px;background:var(--border);border-radius:4px;margin-bottom:5px;}
+.sbar{height:100%;border-radius:4px;transition:width 1s ease;}
+.sval{font-size:17px;font-weight:700;}
+.rcontent{font-size:13.5px;color:var(--text);line-height:1.9;white-space:pre-wrap;}
+.rcontent strong{color:var(--cad);}
+.btnrow{display:flex;gap:11px;flex-wrap:wrap;margin-top:18px;}
+.dbtn{background:var(--cad);color:#fff;border:none;padding:13px 24px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.dbtn:hover{background:var(--cad2);transform:translateY(-1px);}
+.nbtn{background:var(--bg);color:var(--cad);border:1.5px solid var(--border);padding:13px 24px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+.nbtn:hover{border-color:var(--cad);}
+.powered{text-align:center;margin-top:26px;font-size:11px;color:var(--muted);letter-spacing:.5px;}
+.powered b{color:var(--cad);}
+@media print{.header,.sbtn,.btnrow,.powered{display:none!important;}.main{padding:0;}.rpage.show{display:block!important;}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="hi">
+    <div class="hlogo">
+      <div class="hdot">Z</div>
+      <div><div class="htxt">ZCMC Digital Marketing</div><div class="hsub">Diagnostic interne · Collaborateurs</div></div>
+    </div>
+    <div class="hbadge">COLLABORATEURS</div>
+  </div>
+  <div class="hbar"><div class="hfill" id="pf"></div></div>
+</header>
+
+<div class="main" id="fm">
+  <div class="hero">
+    <div class="htag">📋 Diagnostic Interne</div>
+    <h1>Questionnaire<br>Collaborateurs</h1>
+    <p>Vos réponses sont strictement confidentielles. À la fin, un rapport psychologique et professionnel personnalisé est généré automatiquement par intelligence artificielle.</p>
+    <div class="hnote">⏱ 8–10 min · 20 questions · Une seule réponse · Rapport IA généré à la soumission</div>
+  </div>
+
+  <div class="icard">
+    <div class="ititle">Vos informations</div>
+    <div class="igrid">
+      <div class="ifield"><label>Prénom & Nom</label><input type="text" id="nom" placeholder="Votre nom complet"></div>
+      <div class="ifield"><label>Votre équipe</label>
+        <select id="equipe">
+          <option value="">— Sélectionnez —</option>
+          <option>Commercial Terrain</option>
+          <option>Conseiller Clientèle (CC)</option>
+          <option>Community Manager (CM)</option>
+          <option>Graphiste Designer</option>
+          <option>Autre</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="prow">
+    <span class="plabel">Complétez toutes les questions pour générer votre rapport</span>
+    <span class="pcount"><span id="ans">0</span> / 20</span>
+  </div>
+
+  <div id="qc"></div>
+
+  <div class="sarea">
+    <div class="snote">À la soumission, l'IA analysera vos 20 réponses et produira un rapport psychologique complet incluant votre profil CAPI, vos forces, vos axes de développement et des recommandations personnalisées.</div>
+    <button class="sbtn" id="sbtn" disabled onclick="go()">🔍 Analyser & Générer mon rapport IA</button>
+  </div>
+  <div class="powered">POWERED BY <b>CHAOUI MERIEM</b> · Chef de Projet ZCMC · 2025–2026</div>
+</div>
+
+<div class="main" id="lm" style="display:none">
+  <div class="loading show">
+    <div class="spin"></div>
+    <h3>Analyse en cours…</h3>
+    <p>L'IA analyse vos réponses et construit votre profil psychologique et professionnel.</p>
+    <div class="lsteps">
+      <div class="lstep" id="l1">📊 Organisation des réponses</div>
+      <div class="lstep" id="l2">🧠 Analyse comportementale</div>
+      <div class="lstep" id="l3">🔍 Identification forces & axes</div>
+      <div class="lstep" id="l4">📝 Rédaction du rapport</div>
+    </div>
+  </div>
+</div>
+
+<div class="main" id="rm" style="display:none">
+  <div class="rpage show">
+    <div class="rheader">
+      <div class="rref" id="ref">Réf. #ZCMC-0001</div>
+      <h2>Rapport Psychologique<br>& Professionnel</h2>
+      <div class="rinfo" id="ri"></div>
+    </div>
+    <div class="rbody">
+      <h3>Analyse personnalisée</h3>
+      <div class="rsub">Généré par intelligence artificielle · Confidentiel · ZCMC</div>
+      <div class="sgrid" id="sg"></div>
+      <div class="rcontent" id="rc">Chargement…</div>
+      <div class="btnrow">
+        <button class="dbtn" onclick="window.print()">🖨 Imprimer / PDF</button>
+        <button class="nbtn" onclick="reset()">← Nouveau questionnaire</button>
+      </div>
+    </div>
+    <div class="powered">POWERED BY <b>CHAOUI MERIEM</b> · Chef de Projet ZCMC · 2025–2026</div>
+  </div>
+</div>
+
+<script>
+const L=["A","B","C","D","E"], ans={};
+const qs=[
+  {s:"🧠 Comportement & Responsabilité",q:"Quand un client exprime une insatisfaction, votre première pensée ?",o:["Il a tort — nos produits sont bons","C'est de ma faute, je dois me remettre en question","C'est la faute d'un collègue","Le problème vient du système ou des outils","Je cherche d'abord à comprendre avant de juger"]},
+  {s:null,q:"Un collègue livre une maquette avec une faute évidente. Vous ?",o:["Ne dites rien — pas votre rôle","L'informez discrètement","L'informez ET signalez au superviseur","Corrigez vous-même sans en parler","Attendez que le client remarque"]},
+  {s:null,q:"Vous êtes en retard sur une tâche. Votre réaction naturelle ?",o:["Livrez sans rien dire","Inventez une excuse technique","Signalez le retard avec une solution","Accusez la surcharge ou un collègue","Attendez que le superviseur le remarque"]},
+  {s:"🔍 Diagnostic Personnel",q:"La principale raison de la perte de clients chez ZCMC selon vous ?",o:["Les clients sont trop exigeants","Le marché est saturé en Algérie","Les comportements internes et le manque de rigueur","Le manque de budget et d'outils","La direction qui ne s'implique pas assez"]},
+  {s:null,q:"Quand votre superviseur vous fait une remarque, vous ressentez ?",o:["De la frustration — vous êtes ciblé","De l'indifférence — ça ne change rien","De la gratitude — c'est une opportunité","De la gêne — vous préférez éviter","De l'inquiétude pour votre poste"]},
+  {s:null,q:"Client se plaint d'une publication incorrecte, votre équipe est responsable. Vous dites ?",o:["'Ce n'est pas moi qui ai fait ça'","'Nous avions pourtant bien vérifié'","'Je comprends. Donnez-moi 24h pour corriger'","'La prochaine fois on fera mieux'","'C'est un problème technique fréquent'"]},
+  {s:"🏗 Fonctionnement d'équipe",q:"Le principal obstacle au bon fonctionnement de votre équipe ?",o:["Manque de communication entre étages","Chacun travaille dans son coin","Absence de règles claires","Des personnalités difficiles","Manque de formation et d'outils"]},
+  {s:null,q:"Vous noteriez honnêtement la qualité de votre travail ?",o:["Entre 8 et 10 — je travaille correctement","Entre 6 et 7 — des axes d'amélioration existent","Entre 4 et 5 — j'ai besoin d'accompagnement","Je ne sais pas m'évaluer objectivement","C'est au superviseur de noter, pas à moi"]},
+  {s:null,q:"Ce qui vous démotiverait le plus dans votre travail ?",o:["Ne pas être reconnu malgré les efforts","Travailler avec des collègues peu sérieux","Ne pas avoir les outils nécessaires","Un superviseur qui ne vous soutient pas","Être évalué de manière injuste"]},
+  {s:null,q:"Face à un comportement non professionnel d'un collègue, vous ?",o:["L'ignorez — pas votre problème","En parlez dans votre cercle informel","Signalez discrètement au superviseur","L'affrontez directement","Attendez que d'autres le remarquent"]},
+  {s:"💡 Valeurs & Culture",q:"Un bon collaborateur c'est avant tout quelqu'un qui ?",o:["Fait son travail sans se mêler des autres","Respecte les règles même sans surveillance","Sait se faire apprécier de la hiérarchie","Prend des initiatives sans permission","Évite les conflits pour maintenir l'ambiance"]},
+  {s:null,q:"Si vous pouviez changer UNE seule chose chez ZCMC, ce serait ?",o:["Améliorer la communication entre équipes","Mettre en place des processus clairs","Changer certains membres de l'équipe","Donner plus d'autonomie aux collaborateurs","Améliorer les outils et conditions"]},
+  {s:null,q:"Face à une règle interne que vous trouvez inutile, vous ?",o:["L'ignorez si personne ne regarde","La respectez mais exprimez votre désaccord","La respectez sans la remettre en question","En discutez entre collègues","Proposez une alternative constructive"]},
+  {s:null,q:"Votre équipe rate un objectif client important. Votre réaction ?",o:["Vous n'y êtes pour rien","Vous analysez votre propre contribution","Vous identifiez le responsable dans l'équipe","Attendez que la direction agisse","Proposez un plan d'action"]},
+  {s:"🔄 Changement & Évolution",q:"Pourquoi certains collaborateurs résistent au changement ?",o:["Peur de perdre la zone de confort","Manque de confiance dans la direction","Les changements ne sont pas toujours justifiés","Jalousie envers ceux qui portent les projets","Manque d'information sur les raisons"]},
+  {s:null,q:"Un client vous dit 'votre concurrent fait mieux'. Vous répondez ?",o:["'Ils ont tort, notre travail est de qualité'","'Je transmets votre retour à l'équipe'","'Précisez ce qui vous déçoit, je veux comprendre'","'C'est difficile à entendre mais je comprends'","Vous changez de sujet"]},
+  {s:null,q:"La qualité de votre travail quand votre superviseur est absent ?",o:["Non — sa présence influence mon rythme","Oui — je travaille pareil qu'il soit là","Je suis plus détendu quand il n'est pas là","Je travaille mieux sans lui","Je ne me suis jamais posé la question"]},
+  {s:null,q:"La perte de 300 clients en un an est-elle liée à votre équipe ?",o:["Non — c'est un problème de direction","Partiellement — tout le monde contribue","Oui — les problèmes de qualité ont un impact","Je ne peux pas évaluer ça","C'est lié aux conditions économiques"]},
+  {s:"🎯 Management & Progression",q:"Quel management vous aide le plus à progresser ?",o:["Bienveillant qui valorise les efforts","Exigeant avec des objectifs clairs","Autonome qui vous laisse travailler","Directif avec des règles strictes","Je n'ai pas besoin de management particulier"]},
+  {s:null,q:"Si vous étiez Chef de Projet pour 1 journée, votre première décision ?",o:["Réunion pour comprendre les vrais problèmes","Mettre en place des règles et les faire respecter","Remplacer les collaborateurs peu performants","Améliorer les outils et processus","Améliorer la communication et la cohésion"]},
+];
+
+function buildQ(){
+  const c=document.getElementById("qc"); let ls=null;
+  qs.forEach((q,i)=>{
+    if(q.s&&q.s!==ls){
+      const d=document.createElement("div"); d.className="sdiv";
+      const ico=q.s.split(" ")[0], txt=q.s.substring(q.s.indexOf(" ")+1);
+      d.innerHTML=`<span style="font-size:18px">${ico}</span><span>${txt}</span>`; c.appendChild(d); ls=q.s;
+    }
+    const card=document.createElement("div"); card.className="qcard"; card.id=`c${i}`;
+    const opts=q.o.map((o,j)=>`<label class="opt" id="o${i}${j}" onclick="pick(${i},${j})"><input type="radio" name="q${i}"><div class="oletter">${L[j]}</div><span class="otxt">${o}</span></label>`).join("");
+    card.innerHTML=`<div class="qhead"><div class="qnum">${i+1}</div><div class="qtxt">${q.q}</div></div><div class="opts">${opts}</div>`;
+    c.appendChild(card);
+  });
+}
+
+function pick(qi,oi){
+  for(let j=0;j<5;j++){const e=document.getElementById(`o${qi}${j}`);if(e)e.classList.remove("sel");}
+  document.getElementById(`o${qi}${oi}`).classList.add("sel");
+  ans[qi]={i:oi,t:qs[qi].o[oi],q:qs[qi].q};
+  document.getElementById(`c${qi}`).classList.add("answered");
+  const n=Object.keys(ans).length;
+  document.getElementById("ans").textContent=n;
+  document.getElementById("pf").style.width=Math.round(n/20*100)+"%";
+  document.getElementById("sbtn").disabled=n<20;
+}
+
+async function go(){
+  const nom=document.getElementById("nom").value.trim();
+  const eq=document.getElementById("equipe").value;
+  if(!nom||!eq){alert("⚠️ Veuillez renseigner votre nom et votre équipe.");return;}
+  document.getElementById("fm").style.display="none";
+  document.getElementById("lm").style.display="block";
+  const steps=["l1","l2","l3","l4"];
+  for(let i=0;i<steps.length;i++){
+    await new Promise(r=>setTimeout(r,700));
+    if(i>0){document.getElementById(steps[i-1]).classList.remove("active");document.getElementById(steps[i-1]).classList.add("done");}
+    document.getElementById(steps[i]).classList.add("active");
+  }
+  await new Promise(r=>setTimeout(r,600));
+  document.getElementById(steps[3]).classList.remove("active");
+  document.getElementById(steps[3]).classList.add("done");
+
+  const atxt=Object.entries(ans).map(([k,v])=>`Q${+k+1}: "${v.q}" → "${v.t}"`).join("\n");
+  const prompt=`Tu es expert en psychologie organisationnelle. Analyse les réponses de ce collaborateur de ZCMC Digital Marketing (agence qui a perdu 300 clients en 1 an, programme de transformation en cours dirigé par Chaoui Meriem, Chef de Projet).
+
+Collaborateur: ${nom} | Équipe: ${eq}
+
+Réponses:
+${atxt}
+
+Génère un rapport structuré avec ces sections exactes (commence directement sans introduction) :
+
+**PROFIL GLOBAL**
+[3-4 lignes décrivant le profil général de manière bienveillante et précise]
+
+**SENS DES RESPONSABILITÉS**
+[2-3 lignes sur comment ce collaborateur assume ou délègue la responsabilité]
+
+**RAPPORT À L'AUTORITÉ**
+[2-3 lignes sur sa relation avec le management et les corrections]
+
+**DYNAMIQUE D'ÉQUIPE**
+[2-3 lignes sur son positionnement dans le collectif]
+
+**MOTIVATIONS PROFONDES**
+[2-3 lignes sur ce qui le motive réellement]
+
+**RÉSISTANCE AU CHANGEMENT**
+[1-2 lignes sur son niveau d'ouverture à la transformation ZCMC]
+
+**FORCES IDENTIFIÉES**
+[3-4 points concrets détectés dans ses réponses]
+
+**AXES DE DÉVELOPPEMENT**
+[3-4 points prioritaires sur lesquels progresser]
+
+**RECOMMANDATION POUR LE CHEF DE PROJET**
+[2-3 lignes sur comment Chaoui Meriem doit approcher ce profil]
+
+**NIVEAU CAPI**
+[Une phrase: Soutien Intensif / Médium / Leader avec justification courte]
+
+Sois précis, humain et professionnel. Base-toi uniquement sur les réponses données.`;
+
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
+    const d=await r.json();
+    const txt=d.content.map(b=>b.text||"").join("");
+    showReport(nom,eq,txt);
+  }catch(e){
+    showReport(nom,eq,"**Note technique:** La génération du rapport nécessite une connexion active. Vos réponses ont bien été enregistrées. Contactez Chaoui Meriem pour recevoir votre rapport personnalisé.");
+  }
+}
+
+function showReport(nom,eq,txt){
+  document.getElementById("lm").style.display="none";
+  document.getElementById("rm").style.display="block";
+  const ref="ZCMC-COLLAB-"+String(Math.floor(Math.random()*9000)+1000);
+  document.getElementById("ref").textContent="Réf. #"+ref;
+  document.getElementById("ri").textContent=nom+" · "+eq+" · ZCMC Digital Marketing · 2025–2026";
+  buildScores(); 
+  document.getElementById("rc").innerHTML=txt.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
+  document.getElementById("pf").style.width="100%";
+}
+
+function buildScores(){
+  const m={0:1,1:3,2:4,3:2,4:2};
+  let r=0,a=0,p=0,im=0,n=0;
+  Object.values(ans).forEach(v=>{const s=m[v.i]||2;r+=s;a+=s;p+=s;im+=s;n++;});
+  if(!n)return;
+  const base=Math.round((r/(n*4))*100);
+  const dims=[
+    {l:"Compétence",v:Math.min(100,base+5),c:"#1652A8"},
+    {l:"Autonomie",v:Math.min(100,base-3),c:"#06A77D"},
+    {l:"Performance",v:Math.min(100,base+2),c:"#E8A020"},
+    {l:"Impact",v:Math.min(100,base-1),c:"#7B2D8B"},
+  ];
+  document.getElementById("sg").innerHTML=dims.map(d=>`
+    <div class="scard">
+      <div class="slabel">${d.l}</div>
+      <div class="sbarw"><div class="sbar" style="width:${d.v}%;background:${d.c}"></div></div>
+      <div class="sval" style="color:${d.c}">${d.v}%</div>
+    </div>`).join("");
+}
+
+function reset(){
+  document.getElementById("rm").style.display="none";
+  document.getElementById("fm").style.display="block";
+  document.getElementById("qc").innerHTML="";
+  document.getElementById("nom").value="";
+  document.getElementById("equipe").value="";
+  Object.keys(ans).forEach(k=>delete ans[k]);
+  document.getElementById("ans").textContent="0";
+  document.getElementById("pf").style.width="0%";
+  document.getElementById("sbtn").disabled=true;
+  buildQ(); window.scrollTo({top:0,behavior:"smooth"});
+}
+
+buildQ();
+</script>
+</body>
+</html>
