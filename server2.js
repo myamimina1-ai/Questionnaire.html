@@ -8,20 +8,21 @@ app.use(express.static("."));
 
 // Page principale
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve("Questionnaire_Collaborateurs_ZCMC.html"));
+  res.sendFile(path.resolve("Questionnaire_Collaborateur.html"));
 });
 
-// Analyse (simulation IA)
+// Analyse (fonctionne sans MongoDB)
 app.post("/analyze", (req, res) => {
   const responses = req.body.responses;
 
-  const result = "Analyse IA : " + responses;
+  // Simulation IA
+  const result = "Analyse IA : " + JSON.stringify(responses);
 
   res.json({ result });
 });
 
+// Lancer serveur
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
-  console.log("Server running");
+  console.log("Serveur lancé sur le port " + PORT);
 });
