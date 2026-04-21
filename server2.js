@@ -8,7 +8,8 @@ app.use(express.static(__dirname));
 
 // PAGE PRINCIPALE
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "Questionnaire_Collaborateur.html"));
+  res.sendFile(path.join(process.cwd(), "Questionnaire_Collaborateur.html"));
+});
 });
 
 // ANALYSE
@@ -22,6 +23,11 @@ app.post("/analyze", (req, res) => {
 
 // LANCER SERVEUR
 const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Serveur lancé sur le port " + PORT);
+});
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log("Serveur lancé sur le port " + PORT);
 });
