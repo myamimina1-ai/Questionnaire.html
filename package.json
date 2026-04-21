@@ -1,7 +1,11 @@
+
 {
   "name": "projet-ia",
   "version": "1.0.0",
-  "type": "module",
+  "main": "server2.js",
+  "scripts": {
+    "start": "node server2.js"
+  },
   "dependencies": {
     "express": "4.18.2"
   }
