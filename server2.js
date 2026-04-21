@@ -8,7 +8,7 @@ app.use(express.static("."));
 
 // PAGE PRINCIPALE
 app.get("/", (req, res) => {
-  res.sendFile("Questionnaire_Collaborateur.html", { root: "." });
+  res.sendFile(path.join(process.cwd(), "../Questionnaire_Collaborateur.html"));
 });
 });
 
