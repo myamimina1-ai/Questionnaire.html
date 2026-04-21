@@ -4,7 +4,7 @@ const path = require("path");
 const app = express();
 
 app.use(express.json());
-app.use(express.static("."));
+app.use(express.static(__dirname));
 
 // PAGE PRINCIPALE
 app.get("/", (req, res) => {
