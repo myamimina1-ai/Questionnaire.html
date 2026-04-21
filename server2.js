@@ -8,7 +8,8 @@ app.use(express.static("."));
 
 // Page principale
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve("Questionnaire_Collaborateur.html"));
+  
+res.sendFile(path.join(process.cwd(), "Questionnaire_Collaborateur.html"));
 });
 
 // Analyse (fonctionne sans MongoDB)
